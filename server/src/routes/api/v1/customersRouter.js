@@ -5,11 +5,8 @@ const { ValidationError } = objection
 import Customer from "../../../models/Customer.js"
 import CustomerSerializer from "../../../serializers/CustomerSerializer.js"
 import cleanUserInput from "../../../services/cleanUserInput.js"
-import customerDogsRouter from "./customerDogsRouter.js"
 
 const customersRouter = new express.Router()
-
-customersRouter.use("/:customerId/dogs", customerDogsRouter)
 
 customersRouter.get("/", async (req, res) => {
   try {

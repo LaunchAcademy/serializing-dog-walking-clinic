@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react"
 
 import CustomerDetails from "./CustomerDetails"
-import DogForm from "./DogForm"
 import DogDetails from "./DogDetails"
-import translateServerErrors from "../services/translateServerErrors"
 
 const CustomerShow = (props) => {
   const [customer, setCustomer] = useState({
@@ -34,42 +32,6 @@ const CustomerShow = (props) => {
   useEffect(() => {
     getCustomer()
   }, [])
-
-  const addDog = async (newDog) => {
-    try {
-      const id = props.match.params.id
-      const response = await fetch(`/api/v1/customers/${id}/dogs`, {
-        method: "POST",
-        credentials: "same-origin",
-        headers: new Headers({
-          "Content-Type": "application/json"
-        }),
-        body: JSON.stringify(newDog)
-      })
-      if (!response.ok) {
-        if (response.status == 422) {
-          const body = await response.json()
-          const newErrors = translateServerErrors(body.errors)
-          setErrors(newErrors)
-        } else {
-          const errorMessage = `${response.status} (${response.statusText})`
-          const error = new Error(errorMessage)
-          throw(error)
-        }
-      } else {
-        const responseBody = await response.json()
-        if (responseBody.dog) {
-          const updatedDogs = customer.dogs.concat(responseBody.dog)
-          setCustomer({
-            ...customer,
-            dogs: updatedDogs
-          })
-        }
-      }
-    } catch (error) {
-      console.error(`Error in fetch: ${error.message}`)
-    }
-  }
   
   let dogDetails 
   if (customer.dogs && customer.dogs.length > 0) {
@@ -92,10 +54,6 @@ const CustomerShow = (props) => {
       />
       <div className="callout secondary">
         <h2>Puppers</h2>
-        <h3>Add a Dog for {customer.name}</h3>
-        <DogForm 
-          addDog={addDog}
-        />
         {dogDetails}
       </div>
     </div>
