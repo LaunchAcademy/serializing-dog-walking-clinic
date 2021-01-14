@@ -52,6 +52,4 @@ customersRouter.post("/", async (req, res) => {
   }
 })
 
-
-
 export default customersRouter
