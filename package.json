@@ -1,0 +1,18 @@
+{
+  "type": "module",
+  "private": true,
+  "workspaces": [
+    "server",
+    "client"
+  ],
+  "scripts": {
+    "build:client": "yarn workspace serializing-dog-walking-client build",
+    "dev": "yarn workspace serializing-dog-walking-clinic-server dev",
+    "dev:debug": "yarn workspace serializing-dog-walking-clinic-server dev:debug",
+    "heroku-postbuild": "yarn workspace serializing-dog-walking-client build",
+    "start": "yarn workspace serializing-dog-walking-clinic-server start"
+  },
+  "engines": {
+    "node": "~14.15"
+  }
+}
