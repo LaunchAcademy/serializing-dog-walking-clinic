@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react"
 
 import CustomerDetails from "./CustomerDetails"
 import DogDetails from "./DogDetails"
+import DogForm from "./DogForm"
+import translateServerErrors from "../services/translateServerErrors"
 
 const CustomerShow = (props) => {
   const [customer, setCustomer] = useState({
@@ -32,6 +34,32 @@ const CustomerShow = (props) => {
   useEffect(() => {
     getCustomer()
   }, [])
+
+  const addDog = async (newDog) => {
+    debugger
+    try {
+      
+      // make fetch request to server
+      
+      if (!response.ok) {
+        if (response.status == 422) {
+          const body = await response.json()
+          const newErrors = translateServerErrors(body.errors)
+          return setErrors(newErrors)
+        } else {
+          const errorMessage = `${response.status} (${response.statusText})`
+          const error = new Error(errorMessage)
+          throw(error)
+        }
+      }
+     
+      // do something with the server response
+      debugger
+      
+    } catch (error) {
+      console.error(`Error in fetch: ${error.message}`)
+    }
+  }
   
   let dogDetails 
   if (customer.dogs && customer.dogs.length > 0) {
@@ -52,8 +80,13 @@ const CustomerShow = (props) => {
       <CustomerDetails 
         customer={customer}
       />
+
       <div className="callout secondary">
         <h2>Puppers</h2>
+        <h3>Add a Dog for {customer.name}</h3>
+        <DogForm
+          addDog={addDog}
+        />
         {dogDetails}
       </div>
     </div>

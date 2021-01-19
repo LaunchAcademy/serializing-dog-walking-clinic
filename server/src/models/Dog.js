@@ -17,21 +17,6 @@ class Dog extends Model {
       }
     }
   }
-  
-  static get relationMappings(){
-    const { Customer } = require("./index")
-    
-    return {
-      customer: {
-        relation: Model.BelongsToOneRelation,
-        modelClass: Customer,
-        join: {
-          from: "dogs.customerId",
-          to: "customers.id"
-        }
-      }
-    }
-  }
 }
 
 module.exports = Dog

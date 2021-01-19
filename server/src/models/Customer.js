@@ -18,21 +18,6 @@ class Customer extends Model {
       }
     }
   }
-  
-  static get relationMappings() {
-    const { Dog } = require("./index")
-    
-    return {
-      dogs: {
-        relation: Model.HasManyRelation,
-        modelClass: Dog,
-        join: {
-          from: "customers.id",
-          to: "dogs.customerId"
-        }
-      }
-    }
-  }
 }
 
 module.exports = Customer
