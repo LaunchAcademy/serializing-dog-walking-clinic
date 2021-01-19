@@ -1,6 +1,7 @@
 import React from "react"
 import { hot } from "react-hot-loader/root"
 import { BrowserRouter, Route } from "react-router-dom"
+
 import Layout from "./Layout"
 
 import "../assets/scss/main.scss"

@@ -19,7 +19,7 @@ class Dog extends Model {
   }
   
   static get relationMappings(){
-    const Customer = require("./Customer")
+    const { Customer } = require("./index")
     
     return {
       customer: {

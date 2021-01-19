@@ -22,6 +22,7 @@ const CustomersIndex = (props) => {
       console.error(`Error in Fetch: ${error.message}`)
     }
   }
+  
   useEffect(() => {
     fetchCustomers()
   }, [])
