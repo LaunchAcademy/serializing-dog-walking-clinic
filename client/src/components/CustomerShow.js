@@ -36,10 +36,19 @@ const CustomerShow = (props) => {
   }, [])
 
   const addDog = async (newDog) => {
-    debugger
+    // debugger
     try {
       
       // make fetch request to server
+      const customerId = props.match.params.id
+      
+      const response = await fetch(`/api/v1/customers/${customerId}/dogs`, {
+        method: "POST",
+        headers: new Headers({
+          "Content-Type": "application/json"
+        }),
+        body: JSON.stringify(newDog)
+      })
       
       if (!response.ok) {
         if (response.status == 422) {
@@ -54,7 +63,21 @@ const CustomerShow = (props) => {
       }
      
       // do something with the server response
-      debugger
+      const responseBody = await response.json()
+      if (responseBody.dog) {
+        const updatedDogs = customer.dogs.concat(responseBody.dog)
+       
+        // const updatedDogs = [
+        //   ...customer.dogs,
+        //   responseBody.dog
+        // ]
+
+        setCustomer({
+          ...customer,
+          dogs: updatedDogs
+        })
+      }
+      // debugger
       
     } catch (error) {
       console.error(`Error in fetch: ${error.message}`)
