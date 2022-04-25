@@ -12,9 +12,9 @@ const CustomerShow = (props) => {
     address: "",
     schedule: "",
     notes: "",
-    dogs: []
+    dogs: [],
   })
-
+  // debugger
   const getCustomer = async () => {
     let id = props.match.params.id
     try {
@@ -38,9 +38,16 @@ const CustomerShow = (props) => {
   const addDog = async (newDog) => {
     debugger
     try {
-      
-      // make fetch request to server
-      
+      const customerId = props.match.params.id
+
+      const response = await fetch(`/api/v1/customers/${customerId}/dogs`, {
+        method: "POST",
+        headers: new Headers({
+          "Content-Type": "application/json",
+        }),
+        body: JSON.stringify(newDog),
+      })
+
       if (!response.ok) {
         if (response.status == 422) {
           const body = await response.json()
@@ -49,44 +56,42 @@ const CustomerShow = (props) => {
         } else {
           const errorMessage = `${response.status} (${response.statusText})`
           const error = new Error(errorMessage)
-          throw(error)
+          throw error
         }
       }
-     
-      // do something with the server response
+
+      const responseBody = await response.json()
       debugger
-      
+      if (responseBody.dog) {
+        const updatedDogs = [...customer.dogs, responseBody.dog]
+      }
+      debugger
     } catch (error) {
       console.error(`Error in fetch: ${error.message}`)
     }
   }
-  
-  let dogDetails 
+
+  let dogDetails
   if (customer.dogs && customer.dogs.length > 0) {
     dogDetails = customer.dogs.map((dog) => {
-      return (
-        <DogDetails
-          key={dog.id}
-          dog={dog}
-        />
-      )
+      return <DogDetails key={dog.id} dog={dog} />
     })
   } else {
-    dogDetails = <h5><i>None have been added</i></h5>
+    dogDetails = (
+      <h5>
+        <i>None have been added</i>
+      </h5>
+    )
   }
 
   return (
     <div className="callout primary">
-      <CustomerDetails 
-        customer={customer}
-      />
+      <CustomerDetails customer={customer} />
 
       <div className="callout secondary">
         <h2>Puppers</h2>
         <h3>Add a Dog for {customer.name}</h3>
-        <DogForm
-          addDog={addDog}
-        />
+        <DogForm addDog={addDog} />
         {dogDetails}
       </div>
     </div>

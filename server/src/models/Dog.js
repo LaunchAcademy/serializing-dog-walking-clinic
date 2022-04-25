@@ -6,7 +6,7 @@ class Dog extends Model {
   }
 
   static get jsonSchema() {
-    return  {
+    return {
       type: "object",
       required: ["name"],
       properties: {
@@ -14,6 +14,21 @@ class Dog extends Model {
         breed: { "type": "string" },
         age: { "type": [ "number", "string" ] },
         notes: { "type": "string" }
+      }
+    }
+  }
+
+  static get relationMappings() {
+    const { Customer } = require("./index")
+
+    return {
+      customer: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: Customer,
+        join: {
+          from: "dogs.customerId",
+          to: "customers.id"
+        }
       }
     }
   }

@@ -1,0 +1,6 @@
+- Migration for dog
+- Dog relationMappings()
+- Customer relationMappings()
+- customerRouter show endpoint (/:id)
+- Make the fetch request
+- Create a nested router to post
