@@ -6,15 +6,15 @@ class Dog extends Model {
   }
 
   static get jsonSchema() {
-    return  {
+    return {
       type: "object",
       required: ["name"],
       properties: {
-        name: { "type": "string", "minLength": 1 },
-        breed: { "type": "string" },
-        age: { "type": [ "number", "string" ] },
-        notes: { "type": "string" }
-      }
+        name: { type: "string", minLength: 1 },
+        breed: { type: "string" },
+        age: { type: ["integer", "string"] },
+        notes: { type: "string" },
+      },
     }
   }
 }
